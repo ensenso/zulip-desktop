@@ -7,6 +7,14 @@ import * as ConfigUtil from "../common/config-util.js";
 import {send} from "./typed-ipc-main.js";
 
 function showBadgeCount(messageCount: number, mainWindow: BrowserWindow): void {
+  if (
+    !mainWindow.isVisible() &&
+    ConfigUtil.getConfigItem("openToBackgroundFromTray", false)
+  ) {
+    mainWindow.minimize();
+    mainWindow.blur();
+  }
+
   if (process.platform === "win32") {
     updateOverlayIcon(messageCount, mainWindow);
   } else {
