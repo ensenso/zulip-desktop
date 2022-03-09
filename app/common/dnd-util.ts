@@ -22,7 +22,7 @@ export function toggle(): Toggle {
   const dnd = !ConfigUtil.getConfigItem("dnd", false);
   const dndSettingList: SettingName[] = ["showNotification", "silent"];
   if (process.platform === "win32") {
-    dndSettingList.push("flashTaskbarOnMessage");
+    dndSettingList.push("flashTaskbarOnMessage", "openToBackgroundFromTray");
   }
 
   let newSettings: Partial<DndSettings>;
