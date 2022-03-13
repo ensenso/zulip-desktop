@@ -23,6 +23,7 @@ export type MainMessage = {
   "update-badge": (messageCount: number) => void;
   "update-menu": (properties: MenuProperties) => void;
   "update-taskbar-icon": (data: string, text: string) => void;
+  "toggle-global-shortcut": (newValue: boolean) => void;
 };
 
 export type MainCall = {

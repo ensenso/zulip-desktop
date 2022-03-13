@@ -37,6 +37,7 @@ export const configSchemata = {
   useManualProxy: z.boolean(),
   useProxy: z.boolean(),
   useSystemProxy: z.boolean(),
+  globalShortcut: z.boolean(),
 };
 
 export const enterpriseConfigSchemata = {
