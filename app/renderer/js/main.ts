@@ -203,6 +203,7 @@ export class ServerManagerView {
       downloadsPath: `${app.getPath("downloads")}`,
       quitOnClose: false,
       promptDownload: false,
+      globalShortcut: false,
     };
 
     // Platform specific settings

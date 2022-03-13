@@ -5,6 +5,7 @@ import {
   type WebContents,
   app,
   dialog,
+  globalShortcut,
   powerMonitor,
   session,
   webContents,
@@ -150,6 +151,28 @@ function createMainWindow(): BrowserWindow {
   return win;
 }
 
+// Toggle global shortcut
+const toggleGlobalShortcut = (): void => {
+  if (ConfigUtil.getConfigItem("globalShortcut", false)) {
+    const returnValue = globalShortcut.register(
+      "CommandOrControl+Alt+Shift+Z",
+      () => {
+        if (mainWindow.isVisible()) {
+          mainWindow.minimize();
+        } else {
+          mainWindow.show();
+        }
+      },
+    );
+
+    if (!returnValue) {
+      console.log("registration failed");
+    }
+  } else {
+    globalShortcut.unregister("CommandOrControl+Alt+Shift+Z");
+  }
+};
+
 (async () => {
   if (!app.requestSingleInstanceLock()) {
     app.quit();
@@ -261,6 +284,8 @@ function createMainWindow(): BrowserWindow {
     tabs: [],
   });
   mainWindow = createMainWindow();
+
+  toggleGlobalShortcut();
 
   // Auto-hide menu bar on Windows + Linux
   if (process.platform !== "darwin") {
@@ -384,6 +409,10 @@ function createMainWindow(): BrowserWindow {
     BadgeSettings.updateBadge(badgeCount, mainWindow);
   });
 
+  ipcMain.on("toggle-global-shortcut", () => {
+    toggleGlobalShortcut();
+  });
+  
   ipcMain.on("toggle-menubar", (_event, showMenubar: boolean) => {
     mainWindow.autoHideMenuBar = showMenubar;
     mainWindow.setMenuBarVisibility(!showMenubar);
